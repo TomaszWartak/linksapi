@@ -10,4 +10,10 @@ public class LinksapiApplication {
         SpringApplication.run(LinksapiApplication.class, args);
     }
 
+   /* @Bean
+    ShortlinkValueGenerator shortlinkValueGenerator() {
+        return new ShortlinkValueGenerator();
+    }
+
+    */
 }
