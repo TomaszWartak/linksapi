@@ -1,4 +1,6 @@
-package pl.dev4lazy.linksapi.shorts;
+package pl.dev4lazy.linksapi.utils;
+
+import pl.dev4lazy.linksapi.shorts.Link;
 
 public class LinkInfoDto {
     private String id;
@@ -6,6 +8,10 @@ public class LinkInfoDto {
     private String targetUrl;
     private String redirectUrl;
     private Long visits;
+    /* V2
+    private String password;
+
+     */
 
     public LinkInfoDto(Link link ) {
         this.id = link.getId();
@@ -13,6 +19,8 @@ public class LinkInfoDto {
         this.targetUrl = link.getTargetUrl();
         this.redirectUrl = link.getRedirectUrl();
         this.visits = link.getVisits();
+        // V2
+        // this.password = link.getPassword();
     }
 
     public String getId() {
@@ -54,4 +62,15 @@ public class LinkInfoDto {
     public void setVisits(Long visits) {
         this.visits = visits;
     }
+
+    /* V2
+    public String getPassword() {
+        return password;
+    }
+    // V2
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+     */
 }

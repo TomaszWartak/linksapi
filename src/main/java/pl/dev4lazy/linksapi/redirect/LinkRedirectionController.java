@@ -3,18 +3,17 @@ package pl.dev4lazy.linksapi.redirect;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.dev4lazy.linksapi.shorts.LinkInfoDto;
+import pl.dev4lazy.linksapi.utils.LinkInfoDto;
 import pl.dev4lazy.linksapi.shorts.LinkService;
 
 import java.net.URI;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/redir")
-public class RedirectionController {
+public class LinkRedirectionController {
     private LinkService shortLinkService;
 
-    public RedirectionController(LinkService shortLinkService) {
+    public LinkRedirectionController(LinkService shortLinkService) {
         this.shortLinkService = shortLinkService;
     }
 

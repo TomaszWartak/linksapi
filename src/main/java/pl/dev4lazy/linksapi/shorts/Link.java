@@ -10,6 +10,8 @@ public class Link {
     private String targetUrl;
     private String redirectUrl;
     private Long visits;
+    // V2
+    private String password;
 
     public String getId() {
         return id;
@@ -49,5 +51,14 @@ public class Link {
 
     public void setVisits(Long visits) {
         this.visits = visits;
+    }
+
+    // V2
+    public String getPassword() {
+        return password;
+    }
+    // V2
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

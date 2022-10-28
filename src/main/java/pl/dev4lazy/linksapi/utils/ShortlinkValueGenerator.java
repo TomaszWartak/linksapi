@@ -1,4 +1,4 @@
-package pl.dev4lazy.linksapi.shorts;
+package pl.dev4lazy.linksapi.utils;
 
 import org.springframework.stereotype.Service;
 

@@ -2,6 +2,9 @@ package pl.dev4lazy.linksapi.shorts;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.dev4lazy.linksapi.utils.*;
+import pl.dev4lazy.linksapi.utils.exceptions.InvalidPasswordException;
+import pl.dev4lazy.linksapi.utils.exceptions.LinkNotFoundException;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
@@ -47,4 +50,20 @@ public class LinkService {
         return linkOptional.map( LinkDtoMapper::map );
     }
 
+    @Transactional
+    public void updateLink( LinkUpdateDto linkUpdateDto) {
+        Optional<Link> linkToUpdateOptional = linkRepository.findById( linkUpdateDto.getId() );
+        linkToUpdateOptional.orElseThrow( LinkNotFoundException::new );
+        // todo: czy tutaj zaktualizuje się? Bo nie ma jawnego zapisu.
+        // cyt.: "Ważne jest to, żeby metoda była publiczna i opatrzona adnotacją @Transactional,
+        // ponieważ bez niej wywołanie metody setName() na obiekcie Link nie miałoby żadnego efektu w bazie danych."
+        linkToUpdateOptional
+                .filter( link -> isLinkPasswordCorrect( linkUpdateDto.getPassword(), link.getPassword() ))
+                .orElseThrow( InvalidPasswordException::new )
+                .setName( linkUpdateDto.getName() );;
+    }
+
+    public boolean isLinkPasswordCorrect(String passwordFromClient, String passwordFromDb ) {
+        return (passwordFromDb != null) && (passwordFromClient != null) && (passwordFromClient.equals( passwordFromDb ));
+    }
 }
