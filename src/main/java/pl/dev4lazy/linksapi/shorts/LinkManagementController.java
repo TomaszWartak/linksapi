@@ -57,4 +57,20 @@ public class LinkManagementController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    ResponseEntity<LinkInfoDto> deleteLink(
+            @PathVariable String id,
+            @RequestHeader String passwd) {
+        try {
+            shortLinkService.deleteLinkById( id, passwd );
+            return ResponseEntity.noContent().build();
+        } catch (LinkNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InvalidPasswordException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .header("Reason", e.getMessage())
+                    .build();
+        }
+    }
+
 }

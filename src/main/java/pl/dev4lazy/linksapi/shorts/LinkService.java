@@ -49,7 +49,7 @@ public class LinkService {
         linkOptional.ifPresent( link -> linkRepository.save(link) );
         return linkOptional.map( LinkDtoMapper::map );
     }
-
+    // V2
     @Transactional
     public void updateLink( LinkUpdateDto linkUpdateDto) {
         Optional<Link> linkToUpdateOptional = linkRepository.findById( linkUpdateDto.getId() );
@@ -60,10 +60,23 @@ public class LinkService {
         linkToUpdateOptional
                 .filter( link -> isLinkPasswordCorrect( linkUpdateDto.getPassword(), link.getPassword() ))
                 .orElseThrow( InvalidPasswordException::new )
-                .setName( linkUpdateDto.getName() );;
+                .setName( linkUpdateDto.getName() );
     }
 
     public boolean isLinkPasswordCorrect(String passwordFromClient, String passwordFromDb ) {
-        return (passwordFromDb != null) && (passwordFromClient != null) && (passwordFromClient.equals( passwordFromDb ));
+        return (passwordFromClient != null) && (passwordFromClient.equals( passwordFromDb ));
+    }
+
+    // V3
+    @Transactional
+    void deleteLinkById( String id, String passwordFromClient ) {
+        Optional<Link> linkToDeleteOptional = linkRepository.findById( id );
+        linkToDeleteOptional.orElseThrow( LinkNotFoundException::new );
+        if (linkToDeleteOptional.isPresent()) {
+            Link linkToDelete = linkToDeleteOptional
+                    .filter( link -> isLinkPasswordCorrect( passwordFromClient, link.getPassword() ) )
+                    .orElseThrow( InvalidPasswordException::new );
+            linkRepository.delete( linkToDelete );
+        }
     }
 }
